@@ -1,0 +1,15 @@
+module Q5 (input logic resetn, clock, input logic[7:0] data_in, output logic[2:0] msb);
+
+    integer i;
+    
+    always_ff @(posedge clock or negedge resetn)
+    begin
+       if(!resetn) begin
+           msb <= 3'b000;
+       end
+       else begin
+           for (i=0;i<8;i=i+1)
+               if (data_in[i]) msb <= i;
+       end
+   end
+endmodule

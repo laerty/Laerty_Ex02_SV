@@ -1,0 +1,23 @@
+module Q4 (input logic resetn, clock, start, stop, load, serial_in, input logic[7:0] parallel_in, output logic parity); 
+    logic shift_left;
+    logic[7:0] shift_register;
+
+    always_ff @(posedge clock or negedge resetn)
+    begin
+        if (!resetn) begin
+            shift_left <= 1'b0;
+            shift_register <= 8'd0;
+        end
+        else begin
+            if (start) shift_left <= 1'b1;
+            if (stop) shift_left <= 1'b0;
+            if (shift_left) shift_register <= {shift_register[6:0], serial_in};
+            else if (load) shift_register <= parallel_in;
+        end
+    end
+
+    always_comb
+    begin
+        parity = ^shift_register;
+    end
+endmodule

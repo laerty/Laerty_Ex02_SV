@@ -1,0 +1,23 @@
+module Q2(input clock,
+			 output logic f);
+	
+	logic[8:0] inputCount, count;
+	logic inputF;
+	
+	always_ff @(posedge clock) begin
+		f <= inputF;
+		count <= inputCount;
+	end
+			 
+	always_comb begin
+		if(count==9'd499)
+			inputCount = 9'd0;
+		else
+			inputCount = count + 9'd1;
+			
+		if(9'd90> count >9'd19)
+			inputF = 9'd0;
+		else
+			inputF = 9'd1;
+	end
+endmodule
